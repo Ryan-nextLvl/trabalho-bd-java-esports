@@ -22,21 +22,20 @@ Sistema de gerenciamento de torneios de e-sports com banco de dados relacional P
 
 ### Tela de Login
 
-> Adicione aqui um screenshot da tela de login (`screenshots/login.png`).
 
-![Tela de Login](screenshots/login.png)
+
+![Tela de Login]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (1).png")
 
 ### Menu Principal
 
-> Adicione aqui um screenshot da janela principal com as abas.
 
-![Menu Principal](screenshots/menu.png)
+![Menu Principal]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (3).png")
 
 ### Consulta com JOIN
 
-> Adicione aqui um screenshot da aba Consultas exibindo o resultado do INNER JOIN de partidas.
 
-![Consulta JOIN](screenshots/consulta_join.png)
+
+![Consulta JOIN]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (2).png")
 
 ---
 
