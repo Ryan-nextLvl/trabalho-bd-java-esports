@@ -18,19 +18,28 @@ public class LoginFrame extends JFrame {
         setSize(420, 340);
         setLocationRelativeTo(null);
         setShape(new RoundRectangle2D.Double(0, 0, 420, 340, 20, 20));
+        ImageIcon ic = Tema.icone("icone.png", 32, 32);
+        if (ic.getIconWidth() > 1) setIconImage(ic.getImage());
         buildUI();
     }
 
     private void buildUI() {
+        ImageIcon fundoOriginal = Tema.icone("fundo.png", 420, 340);
         JPanel root = new JPanel(new BorderLayout()) {
             @Override protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                GradientPaint gp = new GradientPaint(
-                    0, 0, new Color(10, 10, 25),
-                    getWidth(), getHeight(), new Color(25, 10, 50));
-                g2.setPaint(gp);
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                if (fundoOriginal.getIconWidth() > 1) {
+                    g2.drawImage(fundoOriginal.getImage(), 0, 0, getWidth(), getHeight(), null);
+                    g2.setColor(new Color(0, 0, 0, 160));
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                } else {
+                    GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(10, 10, 25),
+                        getWidth(), getHeight(), new Color(25, 10, 50));
+                    g2.setPaint(gp);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                }
                 g2.dispose();
             }
         };

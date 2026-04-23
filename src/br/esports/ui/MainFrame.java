@@ -12,6 +12,8 @@ public class MainFrame extends JFrame {
         setSize(1000, 680);
         setMinimumSize(new Dimension(900, 580));
         setLocationRelativeTo(null);
+        ImageIcon ic = Tema.icone("icone.png", 32, 32);
+        if (ic.getIconWidth() > 1) setIconImage(ic.getImage());
         buildUI();
     }
 

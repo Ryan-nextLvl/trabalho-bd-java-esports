@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.net.URL;
 
 public class Tema {
 
@@ -162,5 +163,13 @@ public class Tema {
         sp.getViewport().setBackground(BG_PAINEL);
         sp.setBorder(BorderFactory.createLineBorder(BORDA, 1));
         return sp;
+    }
+
+    public static ImageIcon icone(String nome, int largura, int altura) {
+        URL url = Tema.class.getResource("/br/esports/ui/icons/" + nome);
+        if (url == null) return new ImageIcon();
+        ImageIcon orig = new ImageIcon(url);
+        Image img = orig.getImage().getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
+        return new ImageIcon(img);
     }
 }

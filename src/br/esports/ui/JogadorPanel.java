@@ -57,7 +57,8 @@ public class JogadorPanel extends JPanel {
 
         JButton bCadastrar = Tema.botao("＋ Cadastrar",  Tema.NEON_CYAN.darker());
         JButton bAtualizar = Tema.botao("✎ Atualizar",  new Color(0, 100, 200));
-        JButton bExcluir   = Tema.botao("✕ Excluir",    Tema.NEON_RED.darker());
+        JButton bExcluir   = Tema.botao(" Excluir",    Tema.NEON_RED.darker());
+        bExcluir.setIcon(Tema.icone("lixeira.png", 18, 18));
         JButton bLimpar    = Tema.botao("↺ Limpar",     new Color(50, 50, 80));
 
         bCadastrar.addActionListener(e -> cadastrar());
