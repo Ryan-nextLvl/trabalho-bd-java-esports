@@ -55,11 +55,14 @@ public class JogadorPanel extends JPanel {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 6));
         p.setBackground(Tema.BG_PAINEL);
 
-        JButton bCadastrar = Tema.botao("＋ Cadastrar",  Tema.NEON_CYAN.darker());
-        JButton bAtualizar = Tema.botao("✎ Atualizar",  new Color(0, 100, 200));
+        JButton bCadastrar = Tema.botao(" Cadastrar",  Tema.NEON_CYAN.darker());
+        JButton bAtualizar = Tema.botao(" Atualizar",  new Color(0, 100, 200));
         JButton bExcluir   = Tema.botao(" Excluir",    Tema.NEON_RED.darker());
-        bExcluir.setIcon(Tema.icone("lixeira.png", 18, 18));
-        JButton bLimpar    = Tema.botao("↺ Limpar",     new Color(50, 50, 80));
+        JButton bLimpar    = Tema.botao(" Limpar",     new Color(50, 50, 80));
+        bCadastrar.setIcon(Icones.mais(18,    Tema.NEON_CYAN));
+        bAtualizar.setIcon(Icones.lapis(18,   new Color(100, 180, 255)));
+        bExcluir.setIcon(Icones.lixeira(18,   Tema.NEON_RED));
+        bLimpar.setIcon(Icones.vassoura(18,   new Color(150, 150, 200)));
 
         bCadastrar.addActionListener(e -> cadastrar());
         bAtualizar.addActionListener(e -> atualizar());

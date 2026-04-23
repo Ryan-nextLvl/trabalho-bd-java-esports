@@ -70,11 +70,14 @@ public class PartidaPanel extends JPanel {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 6));
         p.setBackground(Tema.BG_PAINEL);
 
-        JButton bRegistrar = Tema.botao("＋ Registrar",         Tema.NEON_ORANGE.darker());
-        JButton bAlterar   = Tema.botao("✎ Alterar Resultado",  new Color(0, 100, 200));
+        JButton bRegistrar = Tema.botao(" Registrar",         Tema.NEON_ORANGE.darker());
+        JButton bAlterar   = Tema.botao(" Alterar Resultado",  new Color(0, 100, 200));
         JButton bExcluir   = Tema.botao(" Excluir",            Tema.NEON_RED.darker());
-        bExcluir.setIcon(Tema.icone("lixeira.png", 18, 18));
-        JButton bLimpar    = Tema.botao("↺ Limpar",             new Color(50, 50, 80));
+        JButton bLimpar    = Tema.botao(" Limpar",             new Color(50, 50, 80));
+        bRegistrar.setIcon(Icones.mais(18,    Tema.NEON_ORANGE));
+        bAlterar.setIcon(Icones.lapis(18,     new Color(100, 180, 255)));
+        bExcluir.setIcon(Icones.lixeira(18,   Tema.NEON_RED));
+        bLimpar.setIcon(Icones.vassoura(18,   new Color(150, 150, 200)));
 
         bRegistrar.addActionListener(e -> registrar());
         bAlterar.addActionListener(e -> alterarResultado());
