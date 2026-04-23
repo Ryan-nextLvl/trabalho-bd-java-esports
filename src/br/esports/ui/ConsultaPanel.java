@@ -64,7 +64,7 @@ public class ConsultaPanel extends JPanel {
         linha2.setBackground(Tema.BG_CARD);
         linha2.setBorder(Tema.bordaCard("Filtro por Time"));
 
-        JButton bFiltrar = Tema.botao("🔍 Buscar Jogadores", new Color(0, 120, 60));
+        JButton bFiltrar = Tema.botao("🔍 Buscar Time", new Color(0, 120, 60));
         bFiltrar.addActionListener(e -> consultaJogadoresPorTime());
 
         linha2.add(Tema.label("Nome do time (parcial):"));
