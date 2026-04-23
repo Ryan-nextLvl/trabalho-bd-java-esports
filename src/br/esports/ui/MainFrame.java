@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
                     @Override protected void paintTabBorder(Graphics g, int tp, int ti,
                             int x, int y, int w, int h, boolean sel) {}
                     @Override protected void paintFocusIndicator(Graphics g, int tp,
-                            Rectangle[] rs, int ti, Rectangle ir, boolean sel) {}
+                            Rectangle[] rs, int ti, Rectangle ir, Rectangle tr, boolean sel) {}
                     @Override protected void paintContentBorder(Graphics g, int tp, int si) {
                         g.setColor(Tema.BORDA);
                         g.drawLine(0, rects[0].y + rects[0].height,
