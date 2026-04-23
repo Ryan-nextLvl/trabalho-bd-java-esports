@@ -24,18 +24,18 @@ Sistema de gerenciamento de torneios de e-sports com banco de dados relacional P
 
 
 
-![Tela de Login]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (1).png")
+![Tela de Login](screenshots/login.png)
 
 ### Menu Principal
 
 
-![Menu Principal]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (3).png")
+![Menu Principal](screenshots/menu.png)
 
 ### Consulta com JOIN
 
 
 
-![Consulta JOIN]("C:\Users\Ryan\Pictures\Screenshots\TelaInicial (2).png")
+![Consulta JOIN](screenshots/consulta_join.png)
 
 ---
 
