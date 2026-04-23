@@ -22,98 +22,86 @@ public class TimePanel extends JPanel {
     };
     private final JTable tabela = new JTable(modelo);
 
-    private final JTextField fNome  = new JTextField(18);
-    private final JTextField fTag   = new JTextField(8);
-    private final JTextField fData  = new JTextField(10);
-    private final JTextField fPonts = new JTextField(8);
+    private final JTextField fNome  = Tema.campo(18);
+    private final JTextField fTag   = Tema.campo(8);
+    private final JTextField fData  = Tema.campo(10);
+    private final JTextField fPonts = Tema.campo(8);
 
     public TimePanel() {
-        setLayout(new BorderLayout(8, 8));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(buildFormulario(), BorderLayout.NORTH);
-        add(new JScrollPane(tabela), BorderLayout.CENTER);
-        add(buildBotoes(), BorderLayout.SOUTH);
+        setLayout(new BorderLayout(10, 10));
+        setBackground(Tema.BG_PAINEL);
+        setBorder(Tema.bordaVazia(12, 14));
+        Tema.estilizarTabela(tabela);
+        add(buildFormulario(),        BorderLayout.NORTH);
+        add(Tema.scrollPane(tabela),  BorderLayout.CENTER);
+        add(buildBotoes(),            BorderLayout.SOUTH);
+        tabela.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) preencherFormulario();
+        });
         carregarTabela();
     }
 
     private JPanel buildFormulario() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
-        p.setBorder(BorderFactory.createTitledBorder("Dados do Time"));
-        p.add(new JLabel("Nome:")); p.add(fNome);
-        p.add(new JLabel("Tag:"));  p.add(fTag);
-        p.add(new JLabel("Fundação (dd/MM/yyyy):")); p.add(fData);
-        p.add(new JLabel("Pontuação:")); p.add(fPonts);
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 6));
+        p.setBackground(Tema.BG_CARD);
+        p.setBorder(Tema.bordaCard("Dados do Time"));
+
+        p.add(Tema.label("Nome:"));       p.add(fNome);
+        p.add(Tema.label("Tag:"));        p.add(fTag);
+        p.add(Tema.label("Fundação:"));   p.add(fData);
+        fData.setToolTipText("Formato: dd/MM/yyyy");
+        p.add(Tema.label("Pontuação:")); p.add(fPonts);
         return p;
     }
 
     private JPanel buildBotoes() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 4));
-        JButton bCadastrar  = botao("Cadastrar",  new Color(0, 150, 80));
-        JButton bAtualizar  = botao("Atualizar",  new Color(0, 100, 180));
-        JButton bExcluir    = botao("Excluir",    new Color(180, 40, 40));
-        JButton bAtualPonts = botao("Atualizar Pontuação", new Color(140, 90, 0));
-        JButton bLimpar     = botao("Limpar",     Color.DARK_GRAY);
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 6));
+        p.setBackground(Tema.BG_PAINEL);
+
+        JButton bCadastrar  = Tema.botao("＋ Cadastrar",        Tema.NEON_GREEN.darker());
+        JButton bAtualizar  = Tema.botao("✎ Atualizar",         new Color(0, 100, 200));
+        JButton bPontos     = Tema.botao("▲ Atualizar Pontos",  new Color(160, 100, 0));
+        JButton bExcluir    = Tema.botao("✕ Excluir",           Tema.NEON_RED.darker());
+        JButton bLimpar     = Tema.botao("↺ Limpar",            new Color(50, 50, 80));
 
         bCadastrar.addActionListener(e -> cadastrar());
         bAtualizar.addActionListener(e -> atualizar());
+        bPontos.addActionListener(e -> atualizarPontuacao());
         bExcluir.addActionListener(e -> excluir());
-        bAtualPonts.addActionListener(e -> atualizarPontuacao());
         bLimpar.addActionListener(e -> limpar());
 
-        p.add(bCadastrar); p.add(bAtualizar); p.add(bAtualPonts);
+        p.add(bCadastrar); p.add(bAtualizar); p.add(bPontos);
         p.add(bExcluir);   p.add(bLimpar);
-
-        tabela.getSelectionModel().addListSelectionListener(ev -> {
-            if (!ev.getValueIsAdjusting()) preencherFormulario();
-        });
         return p;
     }
 
     private void cadastrar() {
         try {
-            Time t = lerFormulario(-1);
-            service.cadastrar(t);
-            carregarTabela();
-            limpar();
-        } catch (Exception ex) {
-            erro(ex.getMessage());
-        }
-    }
-
-    private void atualizar() {
-        int id = idSelecionado();
-        if (id < 0) return;
-        try {
-            Time t = lerFormulario(id);
-            service.cadastrar(t); // reutiliza validação; DAO fará UPDATE com o id
-            // para atualização completa usa DAO direto via service
-            br.esports.dao.impl.TimeDAOImpl dao = new br.esports.dao.impl.TimeDAOImpl();
-            dao.atualizar(t);
-            carregarTabela();
-            limpar();
-        } catch (Exception ex) {
-            erro(ex.getMessage());
-        }
-    }
-
-    private void atualizarPontuacao() {
-        int id = idSelecionado();
-        if (id < 0) return;
-        String val = JOptionPane.showInputDialog(this, "Nova pontuação:", "Atualizar Pontuação",
-                JOptionPane.QUESTION_MESSAGE);
-        if (val == null || val.isBlank()) return;
-        try {
-            service.atualizarPontuacao(id, Integer.parseInt(val.trim()));
-            carregarTabela();
+            service.cadastrar(lerFormulario(-1));
+            carregarTabela(); limpar();
         } catch (Exception ex) { erro(ex.getMessage()); }
     }
 
+    private void atualizar() {
+        int id = idSelecionado(); if (id < 0) return;
+        try {
+            Time t = lerFormulario(id);
+            new br.esports.dao.impl.TimeDAOImpl().atualizar(t);
+            carregarTabela(); limpar();
+        } catch (Exception ex) { erro(ex.getMessage()); }
+    }
+
+    private void atualizarPontuacao() {
+        int id = idSelecionado(); if (id < 0) return;
+        String val = JOptionPane.showInputDialog(this, "Nova pontuação:");
+        if (val == null || val.isBlank()) return;
+        try { service.atualizarPontuacao(id, Integer.parseInt(val.trim())); carregarTabela(); }
+        catch (Exception ex) { erro(ex.getMessage()); }
+    }
+
     private void excluir() {
-        int id = idSelecionado();
-        if (id < 0) return;
-        int conf = JOptionPane.showConfirmDialog(this,
-                "Excluir o time selecionado?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (conf == JOptionPane.YES_OPTION) {
+        int id = idSelecionado(); if (id < 0) return;
+        if (confirmar("Excluir o time selecionado?")) {
             try { service.excluir(id); carregarTabela(); limpar(); }
             catch (Exception ex) { erro(ex.getMessage()); }
         }
@@ -121,18 +109,14 @@ public class TimePanel extends JPanel {
 
     private void carregarTabela() {
         modelo.setRowCount(0);
-        List<Time> lista = service.listarTodos();
-        for (Time t : lista)
-            modelo.addRow(new Object[]{
-                    t.getId(), t.getNome(), t.getTag(),
-                    t.getDataFundacao() != null ? t.getDataFundacao().format(FMT) : "",
-                    t.getPontuacaoRanking()
-            });
+        for (Time t : service.listarTodos())
+            modelo.addRow(new Object[]{t.getId(), t.getNome(), t.getTag(),
+                    t.getDataFundacao() != null ? t.getDataFundacao().format(FMT) : "—",
+                    t.getPontuacaoRanking()});
     }
 
     private void preencherFormulario() {
-        int row = tabela.getSelectedRow();
-        if (row < 0) return;
+        int row = tabela.getSelectedRow(); if (row < 0) return;
         fNome.setText((String) modelo.getValueAt(row, 1));
         fTag.setText((String)  modelo.getValueAt(row, 2));
         fData.setText((String) modelo.getValueAt(row, 3));
@@ -142,18 +126,15 @@ public class TimePanel extends JPanel {
     private Time lerFormulario(int id) {
         String nome = fNome.getText().trim();
         String tag  = fTag.getText().trim().toUpperCase();
-        String data = fData.getText().trim();
-        String pts  = fPonts.getText().trim();
         if (nome.isBlank()) throw new IllegalArgumentException("Nome é obrigatório.");
         if (tag.isBlank())  throw new IllegalArgumentException("Tag é obrigatória.");
-        Time t = new Time();
-        t.setId(id);
-        t.setNome(nome);
-        t.setTag(tag);
-        if (!data.isBlank()) {
+        Time t = new Time(); t.setId(id); t.setNome(nome); t.setTag(tag);
+        String data = fData.getText().trim();
+        if (!data.isBlank() && !data.equals("—")) {
             try { t.setDataFundacao(LocalDate.parse(data, FMT)); }
-            catch (DateTimeParseException e) { throw new IllegalArgumentException("Data inválida (use dd/MM/yyyy)."); }
+            catch (DateTimeParseException e) { throw new IllegalArgumentException("Data inválida (dd/MM/yyyy)."); }
         }
+        String pts = fPonts.getText().trim();
         t.setPontuacaoRanking(pts.isBlank() ? 0 : Integer.parseInt(pts));
         return t;
     }
@@ -169,16 +150,12 @@ public class TimePanel extends JPanel {
         tabela.clearSelection();
     }
 
-    private void erro(String msg) {
-        JOptionPane.showMessageDialog(this, msg, "Erro", JOptionPane.ERROR_MESSAGE);
+    private boolean confirmar(String msg) {
+        return JOptionPane.showConfirmDialog(this, msg, "Confirmar",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
     }
 
-    private JButton botao(String texto, Color cor) {
-        JButton b = new JButton(texto);
-        b.setBackground(cor);
-        b.setForeground(Color.WHITE);
-        b.setFocusPainted(false);
-        b.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        return b;
+    private void erro(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }
