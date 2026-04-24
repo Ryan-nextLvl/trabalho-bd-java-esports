@@ -41,9 +41,9 @@ Sistema de gerenciamento de torneios de e-sports com banco de dados relacional P
 
 ## Vídeo Demonstrativo
 
-> **Link do vídeo:** _[adicionar link do YouTube ou Google Drive aqui]_
+> **Link do vídeo:** _[[clique aqui.](https://youtu.be/51mV44_P620)]_
 
-O vídeo (máx. 10 min) demonstra:
+O vídeo demonstra:
 - Aplicação rodando com login
 - Operações CRUD (cadastro, atualização, exclusão, listagem)
 - Funcionamento das consultas com INNER JOIN e LEFT JOIN no código e no banco
